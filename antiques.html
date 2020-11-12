@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>White Glove Lady Cafe and Antiques - Antiques Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="CSS/the-big-picture.css" rel="stylesheet">
+    <link href="CSS/Style.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+
+
+</head>
+
+<body>
+
+
+    <nav>
+        <ul class="nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="menu.html">Menu</a>
+                <ul>
+
+                    <li><a href="Sandwiches.html">Sandwiches</a></li>
+                    <li><a href="Soups.html">Soups</a></li>
+                    <li><a href="Salads.html">Salads</a></li>
+                    <li><a href="Sweets.html">Sweets</a></li>
+                    <li><a href="Coffee.html">Coffee</a></li>
+                    <li><a href="Teas.html">Teas</a></li>
+                    <li><a href="Non-Coffee.html">Non-Coffee</a></li>
+                    <li><a href="SpecialtyCoffees.html">Specialty Coffees</a></li>
+                </ul>
+            </li>
+
+            <li><a href="antiques.html">Antiques</a></li>
+            <li><a class="active" href="contact.html">Contact</a></li>
+        </ul>
+        
+    </nav>
+
+    <header>
+        <br>
+        <left><img src="webimg/AntiqueShelfs.jpg" alt="Antique Shelves"></left>
+    </header>
+    <br>
+    <br>
+    <div class="container" id="message">
+            </div>
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body" id="modalBodyDiv">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <script>
+        $(document).ready(function() {
+            $("#searchInput").keypress(function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == "13") {
+                    event.preventDefault();
+                    $("#submit").trigger("click");
+                }
+            });
+
+            $("#submit").click(function(e) {
+                var validate = Validate();
+                $("#message").html(validate);
+                if (validate.length == 0) {
+                    $.ajax({
+                        url: "http://localhost:8081/api/inventory",
+                        type: 'GET',
+                        crossDomain: true,
+                        dataType: "json",
+                        success: function(result, status, xhr) {
+                            // var resultHtml = $("<hr><div class=\"resultDiv\">");
+                            var resultHtml = $("<div class=\"row\">");
+                            for (i = 0; i < result["items"].length; i++) {
+                                resultHtml.append("<div class=\"col-sm\" resourceId=\"" + result["items"][i]["imageURL"] + "\">" + "<img  role=\"img\" aria-label=\"" + result["items"][i]["name"] + "\" src=\"" + result["items"][i]["imageURL"] + "\" alt=\"" + result["items"][i]["name"] + "\" />" + "<p><a>" + result["items"][i]["name"] + "</a></p></div>")
+                            }
+                            resultHtml.append("</div>");
+
+                            $("#message").html(resultHtml);
+                        },
+                        error: function(xhr, status, error) {
+                            $("#message").html("<label aria-label=\"No Item Was Found\">Result: no item found </label>")
+                        }
+                    });
+                }
+            });
+
+            $("#message").on("click", ".col-sm", function() {
+                var resourceId = $(this).attr("resourceId");
+                $.ajax({
+                    url: "http://localhost:8081/api/inventory",
+                    crossDomain: true,
+                    global: false,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(result, status, xhr) {
+                        $("#modalTitle").html(result["items"]["name"]);
+                        var resultHtml = $("<p class=\"text-center\"><img style=\"width: 50%; height: 50%\" src=\"" + result["items"]["imageURL"] + "\"/></p><p>" + result["items"]["description"] + "</p><p>Item Description: " + result["items"]["description"] + "</p>" +
+                            "</p><p>Name: " + result["items"]["name"] + "</p>" +
+                            "</p><p>Item ID: " + result["items"]["id"] + "</p>"
+                        )
+
+                        $("#modalBodyDiv").html(resultHtml)
+
+                        $("#myModal").modal("show");
+                    },
+                    error: function(xhr, status, error) {
+                        $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                    }
+                });
+            });
+
+        });
+
+    </script>
+
+    <div class="footer">
+        <p>Company © White Glove Lady Cafe and Antiques. All rights reserved</p>
+    </div>
+
+</body>
+
+</html>
+
