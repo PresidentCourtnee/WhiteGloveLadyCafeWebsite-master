@@ -1,5 +1,11 @@
+<link type="text/css" href="style.css" />
+ <!--[If IE]>
+ <link type="text/css" href="IEHacks.css" />
+ <![endif]-->
+ <!--[if !IE]>
+ <link type="text/css" href="NonIEHacks.css" />
+ <![endif]-->
 /* This stylesheet styles the navigation bar and makes things responsive */
-
 nav {    
   display: block;
   text-align: center;
