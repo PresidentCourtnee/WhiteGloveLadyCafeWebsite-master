@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 
 <head>
@@ -9,7 +10,10 @@
     <link href="CSS/the-big-picture.css" rel="stylesheet">
     <link href="CSS/Style.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
-    
+    <link href="CSS/Flatelybootstrap.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 
 </head>
@@ -68,69 +72,65 @@
                 </div>
             </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--This scetion is still not rendering correctly. I am not sure what is happening and where I am going wrong. Do I need to add each imageURL?-->
-    <script>
-        $(document).ready(function() {
-            /*$("#searchInput").keypress(function(event) {
-                var keycode = (event.keyCode ? event.keyCode : event.which);
-                if (keycode == "13") {
-                    event.preventDefault();
-                    $("#submit").trigger("click");
-                }
-            });
-
-            $("#submit").click(function(e) {
-                var validate = Validate();
-                $("#message").html(validate);*/
-                if (true) {
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+      <script>
+        $(document).ready(function() 
+                {
+                       if (true) 
+                  {
                     $.ajax({
-                        url: "http://localhost:8081/api/inventory",
-                        type: 'GET',
-                        crossDomain: true,
-                        dataType: "json",
-                        success: function(result, status, xhr) {
-                            // var resultHtml = $("<hr><div class=\"resultDiv\">");
-                            var resultHtml = $("<div class=\"row\">");
-                            for (i = 0; i < result["items"].length; i++) {
-                                resultHtml.append("<div class=\"col-sm\" resourceId=\"" + result["items"][i]["imageURL"] + "\">" + "<img  role=\"img\" aria-label=\"" + result["items"][i]["name"] + "\" src=\"" + result["items"][i]["imageURL"] + "\" alt=\"" + result["items"][i]["name"] + "\" />" + "<p><a>" + result["items"][i]["name"] + "</a></p></div>")
-                            }
-                            resultHtml.append("</div>");
+                            url: "http://localhost:8081/api/inventory",
+                            type: 'GET',
+                            crossDomain: true,
+                            dataType: "json",
+                            success: function(result, status, xhr) 
+                                {
+                                    // var resultHtml = $("<hr><div class=\"resultDiv\">");
+                                    var resultHtml = $("<div class=\"row\">");
+                                    for (i = 0; i < result["items"].length; i++) 
+                                    {
+                                        resultHtml.append("<div class=\"col-sm\" resourceId=\"" + result["items"][i]["id"] + "\">" + "<img style=\"width: 95%;\" role=\"img\" aria-label=\"" + result["items"][i]["name"] + "\" src=\"" + result["items"][i]["imageURL"] + "\" alt=\"" + result["items"][i]["name"] + "\" />" + "<p><a>" + result["items"][i]["name"]+ "</a></p></div>")
+                                    }
+                                    resultHtml.append("</div>");
 
-                            $("#message").html(resultHtml);
+                                    $("#message").html(resultHtml);
+                                },
+                                error: function(xhr, status, error) 
+                                {
+                                    $("#message").html("<label aria-label=\"No Item Was Found\">Result: no item found </label>")
+                                }
+                        });
+                    }
+                //});
+
+                $("#message").on("click", ".col-sm", function() 
+                 {
+                    var resourceId = $(this).attr("resourceId");
+                    $.ajax
+                    ({
+                        url: "http://localhost:8081/api/inventory/" + resourceId,
+                        crossDomain: true,
+                        global: false,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(result, status, xhr) 
+                        {
+                            $("#modalTitle").html(result["name"]);
+                            var resultHtml = $("<p class=\"text-center\"><img style=\"width: 50%; height: 50%\" src=\"" + result["imageURL"] + "\"/></p><p>" + result["description"] + "</p><p> Description: " + result["description"] + "</p>" +
+                                "</p><p>Name: " + result["name"] + "</p>" +
+                                "</p><p>Item ID: " + result["id"] + "</p>" +
+                                "</p><p>Price: " + result["price"] + "</p>")
+
+                            $("#modalBodyDiv").html(resultHtml)
+
+                            $("#myModal").modal("show");
                         },
                         error: function(xhr, status, error) {
-                            $("#message").html("<label aria-label=\"No Item Was Found\">Result: no item found </label>")
+                            $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
                         }
                     });
-                }
-            //});
-
-            $("#message").on("click", ".col-sm", function() {
-                var resourceId = $(this).attr("resourceId");
-                $.ajax({
-                    url: "http://localhost:8081/api/inventory",
-                    crossDomain: true,
-                    global: false,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(result, status, xhr) {
-                        $("#modalTitle").html(result["items"]["name"]);
-                        var resultHtml = $("<p class=\"text-center\"><img style=\"width: 50%; height: 50%\" src=\"" + result["items"]["imageURL"] + "\"/></p><p>" + result["items"]["description"] + "</p><p>Item Description: " + result["items"]["description"] + "</p>" +
-                            "</p><p>Name: " + result["items"]["name"] + "</p>" +
-                            "</p><p>Item ID: " + result["items"]["id"] + "</p>"
-                        )
-
-                        $("#modalBodyDiv").html(resultHtml)
-
-                        $("#myModal").modal("show");
-                    },
-                    error: function(xhr, status, error) {
-                        $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
-                    }
                 });
-            });
 
         });
 
