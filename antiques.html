@@ -73,62 +73,64 @@
             </div>
 
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--This scetion is still not rendering correctly. I am not sure what is happening and where I am going wrong. Do I need to add each imageURL?-->
-    <script>
-        $(document).ready(function() {
-                   if (true) {
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+      <script>
+        $(document).ready(function() 
+                {
+                       if (true) 
+                  {
                     $.ajax({
-                        url: "http://localhost:8081/api/inventory",
-                        type: 'GET',
+                            url: "http://localhost:8081/api/inventory",
+                            type: 'GET',
+                            crossDomain: true,
+                            dataType: "json",
+                            success: function(result, status, xhr) 
+                                {
+                                    // var resultHtml = $("<hr><div class=\"resultDiv\">");
+                                    var resultHtml = $("<div class=\"row\">");
+                                    for (i = 0; i < result["items"].length; i++) 
+                                    {
+                                        resultHtml.append("<div class=\"col-sm\" resourceId=\"" + result["items"][i]["id"] + "\">" + "<img style=\"width: 95%;\" role=\"img\" aria-label=\"" + result["items"][i]["name"] + "\" src=\"" + result["items"][i]["imageURL"] + "\" alt=\"" + result["items"][i]["name"] + "\" />" + "<p><a>" + result["items"][i]["name"]+ "</a></p></div>")
+                                    }
+                                    resultHtml.append("</div>");
+
+                                    $("#message").html(resultHtml);
+                                },
+                                error: function(xhr, status, error) 
+                                {
+                                    $("#message").html("<label aria-label=\"No Item Was Found\">Result: no item found </label>")
+                                }
+                        });
+                    }
+                //});
+
+                $("#message").on("click", ".col-sm", function() 
+                 {
+                    var resourceId = $(this).attr("resourceId");
+                    $.ajax
+                    ({
+                        url: "http://localhost:8081/api/inventory/" + resourceId,
                         crossDomain: true,
-                        dataType: "json",
+                        global: false,
+                        type: 'GET',
+                        dataType: 'json',
                         success: function(result, status, xhr) 
                         {
-                            // var resultHtml = $("<hr><div class=\"resultDiv\">");
-                            var resultHtml = $("<div class=\"row\">");
-                            for (i = 0; i < result["items"].length; i++) 
-                            {
-                                resultHtml.append("<div class=\"col-sm\" resourceId=\"" + result["items"][i]["id"] + "\">" + "<img style=\"width: 95%;\" role=\"img\" aria-label=\"" + result["items"][i]["name"] + "\" src=\"" + result["items"][i]["imageURL"] + "\" alt=\"" + result["items"][i]["name"] + "\" />" + "<p><a>" + result["items"][i]["name"]+ "</a></p></div>")
-                            }
-                            resultHtml.append("</div>");
+                            $("#modalTitle").html(result["name"]);
+                            var resultHtml = $("<p class=\"text-center\"><img style=\"width: 50%; height: 50%\" src=\"" + result["imageURL"] + "\"/></p><p>" + result["description"] + "</p><p> Description: " + result["description"] + "</p>" +
+                                "</p><p>Name: " + result["name"] + "</p>" +
+                                "</p><p>Item ID: " + result["id"] + "</p>" +
+                                "</p><p>Price: " + result["price"] + "</p>")
 
-                            $("#message").html(resultHtml);
+                            $("#modalBodyDiv").html(resultHtml)
+
+                            $("#myModal").modal("show");
                         },
                         error: function(xhr, status, error) {
-                            $("#message").html("<label aria-label=\"No Item Was Found\">Result: no item found </label>")
+                            $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
                         }
                     });
-                }
-            //});
-
-            $("#message").on("click", ".col-sm", function() {
-                var resourceId = $(this).attr("resourceId");
-                $.ajax({
-                    url: "http://localhost:8081/api/inventory/" + resourceId,
-                    crossDomain: true,
-                    global: false,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(result, status, xhr) 
-                    {
-                        $("#modalTitle").html(result["name"]);
-                        var resultHtml = $("<p class=\"text-center\"><img style=\"width: 50%; height: 50%\" src=\"" + result["imageURL"] + "\"/></p><p>" + result["description"] + "</p><p> Description: " + result["description"] + "</p>" +
-                            "</p><p>Name: " + result["name"] + "</p>" +
-                            "</p><p>Item ID: " + result["id"] + "</p>" +
-                            "</p><p>Price: " + result["price"] + "</p>"
-                                           
-                        )
-
-                        $("#modalBodyDiv").html(resultHtml)
-
-                        $("#myModal").modal("show");
-                    },
-                    error: function(xhr, status, error) {
-                        $("#message").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
-                    }
                 });
-            });
 
         });
 
