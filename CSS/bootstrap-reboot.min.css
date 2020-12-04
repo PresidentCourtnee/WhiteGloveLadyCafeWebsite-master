@@ -1,5 +1,12 @@
-/*!
- * Bootstrap Reboot v4.3.1 (https://getbootstrap.com/)
+
+<link type="text/css" href="style.css" />
+ <!--[If IE]>
+ <link type="text/css" href="IEHacks.css" />
+ <![endif]-->
+ <!--[if !IE]>
+ <link type="text/css" href="NonIEHacks.css" />
+ <![endif]-->
+/*! * Bootstrap Reboot v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
