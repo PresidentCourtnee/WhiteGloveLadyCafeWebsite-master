@@ -1,3 +1,10 @@
+<link type="text/css" href="style.css" />
+ <!--[If IE]>
+ <link type="text/css" href="IEHacks.css" />
+ <![endif]-->
+ <!--[if !IE]>
+ <link type="text/css" href="NonIEHacks.css" />
+ <![endif]-->
 /*!
  * Bootstrap Grid v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
