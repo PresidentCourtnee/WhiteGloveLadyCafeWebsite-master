@@ -16,6 +16,12 @@ header
   text-align: center;
   color: white;
 }
+p 
+{
+  color: navy;
+  text-indent: 30px;
+  text-align: center;
+}
 
 h1 {
   color:#8a5602;
