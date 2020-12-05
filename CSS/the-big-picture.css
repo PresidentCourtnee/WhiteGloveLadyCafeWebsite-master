@@ -2,7 +2,7 @@
 
 /* This stylesheet styles the navigation bar and makes things responsive */
 nav {
-<<<<<<< Updated upstream
+
     width: 750px;
     margin: 0 auto;
     list-style: none;
@@ -11,19 +11,19 @@ nav {
   font-family: 'Sofia'!important;
   Position: relative;
   overflow: hidden;*/
-=======
+
 
     display: block;
     text-align: center;
     font-family: 'Sofia';
     Position: relative;
     overflow: hidden;
->>>>>>> Stashed changes
+
 }
 
 
 nav ul {
-<<<<<<< Updated upstream
+
   margin:0;
   padding: 0;    
   text-align: center!important;
@@ -88,11 +88,11 @@ nav ul {
     border-radius: 6px;
     text-align: center;
     font-family: 'Sofia';
->>>>>>> Stashed changes
+
 }
 
 .nav li {
-<<<<<<< Updated upstream
+
   position: relative;
     text-align: center!important;
     font-family: 'Sofia'!important;
@@ -108,7 +108,7 @@ nav ul {
   margin-bottom: 1px;
   box-shadow: inset 0 2em .33em -0.5em #994f00;
     
-=======
+
     position: relative;
     text-align: center;
     font-family: 'Sofia';
@@ -126,7 +126,7 @@ nav ul {
     margin-bottom: 1px;
     box-shadow: inset 0 2em .33em -0.5em #994f00;
 
->>>>>>> Stashed changes
+
     font-family: 'Sofia';
 }
 
